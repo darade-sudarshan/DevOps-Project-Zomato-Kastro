@@ -58,8 +58,8 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker') {
-                        sh "docker tag zomato daradesudarshan/centralrepo/zomato"
-                        sh "docker push daradesudarshan/centralrepo/zomato"
+                        sh "docker tag zomato daradesudarshan/centralrepo-zomato"
+                        sh "docker push daradesudarshan/centralrepo-zomato"
                     }
                 }
             }
@@ -68,16 +68,16 @@ pipeline {
             steps {
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview daradesudarshan/centralrepo/zomato'
-                       sh 'docker-scout cves daradesudarshan/centralrepo/zomato'
-                       sh 'docker-scout recommendations daradesudarshan/centralrepo/zomato'
+                       sh 'docker-scout quickview daradesudarshan/centralrepo-zomato'
+                       sh 'docker-scout cves daradesudarshan/centralrepo-zomato'
+                       sh 'docker-scout recommendations daradesudarshan/centralrepo-zomato'
                    }
                 }
             }
         }
         stage ("Deploy to Container") {
             steps {
-                sh 'docker run -d --name zomato -p 3000:3000 daradesudarshan/centralrepo/zomato'
+                sh 'docker run -d --name zomato -p 3000:3000 daradesudarshan/centralrepo-zomato'
             }
         }
     }
